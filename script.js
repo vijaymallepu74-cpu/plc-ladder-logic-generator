@@ -3,11 +3,8 @@ function generateLogic(){
   const plc =
   document.getElementById("plcModel").value;
 
-  const logic =
-  document.getElementById("logicType").value;
-
   const prompt =
-  document.getElementById("prompt").value;
+  document.getElementById("prompt").value.toLowerCase();
 
   const svg =
   document.getElementById("ladderSVG");
@@ -15,159 +12,184 @@ function generateLogic(){
   // Reset SVG
   svg.innerHTML = `
 
-    <!-- Left Rail -->
-    <line
-      x1="50"
-      y1="20"
-      x2="50"
-      y2="450"
-      class="rail" />
-
-    <!-- Right Rail -->
-    <line
-      x1="1000"
-      y1="20"
-      x2="1000"
-      y2="450"
-      class="rail" />
+    <line x1="50" y1="20" x2="50" y2="650" class="rail"/>
+    <line x1="1150" y1="20" x2="1150" y2="650" class="rail"/>
 
   `;
 
-  // Draw Rung
-  drawMotorRung(120);
+  let logicType = "";
+  let tags = "";
+  let alarms = "";
+  let sequence = "";
 
-  // Generate Tag Table
-  generateTagTable(plc, logic, prompt);
+  // EMERGENCY STOP LOGIC
+  if(prompt.includes("emergency")){
 
-}
+    logicType = "Emergency Shutdown Logic";
 
-function drawMotorRung(y){
+    drawEmergencyLogic(120);
 
-  const svg =
-  document.getElementById("ladderSVG");
+    tags = `
+      <tr>
+        <td>I:0/0</td>
+        <td>E_STOP</td>
+        <td>Emergency Stop Push Button</td>
+      </tr>
 
-  svg.innerHTML += `
+      <tr>
+        <td>O:0/0</td>
+        <td>MOTOR_RUN</td>
+        <td>Main Conveyor Motor</td>
+      </tr>
+    `;
 
-    <!-- Rung -->
-    <line
-      x1="50"
-      y1="${y}"
-      x2="1000"
-      y2="${y}"
-      class="rung" />
+    alarms = `
+      <tr>
+        <td>ALM_001</td>
+        <td>Emergency Stop Activated</td>
+      </tr>
+    `;
 
-    <!-- XIC Start -->
-    <line
-      x1="160"
-      y1="${y-20}"
-      x2="160"
-      y2="${y+20}"
-      class="contact" />
+    sequence = `
+      <li>System runs normally.</li>
+      <li>Emergency stop pressed.</li>
+      <li>Motor output de-energizes.</li>
+      <li>Alarm generated.</li>
+    `;
+  }
 
-    <line
-      x1="190"
-      y1="${y-20}"
-      x2="190"
-      y2="${y+20}"
-      class="contact" />
+  // PUMP LOGIC
+  else if(prompt.includes("pump")){
 
-    <text
-      x="130"
-      y="${y+45}"
-      class="label">
+    logicType = "Pump Interlock Logic";
 
-      Start_PB
+    drawPumpLogic(120);
 
-    </text>
+    tags = `
+      <tr>
+        <td>I:0/0</td>
+        <td>PUMP_START</td>
+        <td>Pump Start Push Button</td>
+      </tr>
 
-    <!-- XIO Stop -->
-    <line
-      x1="320"
-      y1="${y-20}"
-      x2="320"
-      y2="${y+20}"
-      class="contact" />
+      <tr>
+        <td>I:0/1</td>
+        <td>LOW_LEVEL</td>
+        <td>Tank Low Level Switch</td>
+      </tr>
 
-    <line
-      x1="350"
-      y1="${y-20}"
-      x2="350"
-      y2="${y+20}"
-      class="contact" />
+      <tr>
+        <td>O:0/0</td>
+        <td>PUMP_MOTOR</td>
+        <td>Pump Motor Output</td>
+      </tr>
+    `;
 
-    <line
-      x1="315"
-      y1="${y+20}"
-      x2="355"
-      y2="${y-20}"
-      class="contact" />
+    alarms = `
+      <tr>
+        <td>ALM_002</td>
+        <td>Low Tank Level</td>
+      </tr>
+    `;
 
-    <text
-      x="295"
-      y="${y+45}"
-      class="label">
+    sequence = `
+      <li>Operator presses start.</li>
+      <li>Pump runs if tank level healthy.</li>
+      <li>Pump trips on low level.</li>
+    `;
+  }
 
-      Stop_PB
+  // CONVEYOR LOGIC
+  else if(prompt.includes("conveyor")){
 
-    </text>
+    logicType = "Conveyor Logic";
 
-    <!-- Timer -->
-    <rect
-      x="450"
-      y="${y-25}"
-      width="110"
-      height="50"
-      class="timer-box" />
+    drawConveyorLogic(120);
 
-    <text
-      x="475"
-      y="${y+5}"
-      class="label">
+    tags = `
+      <tr>
+        <td>I:0/0</td>
+        <td>START_PB</td>
+        <td>Conveyor Start Push Button</td>
+      </tr>
 
-      TON T4:0
+      <tr>
+        <td>O:0/0</td>
+        <td>CONVEYOR_MOTOR</td>
+        <td>Conveyor Motor Output</td>
+      </tr>
+    `;
 
-    </text>
+    alarms = `
+      <tr>
+        <td>ALM_003</td>
+        <td>Conveyor Overload</td>
+      </tr>
+    `;
 
-    <!-- Coil -->
-    <path
-      d="
-      M 760 ${y-20}
-      Q 730 ${y} 760 ${y+20}
+    sequence = `
+      <li>Operator starts conveyor.</li>
+      <li>Motor energizes.</li>
+      <li>System monitors overload condition.</li>
+    `;
+  }
 
-      M 800 ${y-20}
-      Q 830 ${y} 800 ${y+20}
-      "
-      class="coil" />
+  // DEFAULT
+  else{
 
-    <text
-      x="720"
-      y="${y+45}"
-      class="label">
+    logicType = "Motor Start Stop Logic";
 
-      Motor_M1
+    drawMotorLogic(120);
 
-    </text>
+    tags = `
+      <tr>
+        <td>I:0/0</td>
+        <td>START_PB</td>
+        <td>Start Push Button</td>
+      </tr>
 
-  `;
+      <tr>
+        <td>I:0/1</td>
+        <td>STOP_PB</td>
+        <td>Stop Push Button</td>
+      </tr>
 
-}
+      <tr>
+        <td>O:0/0</td>
+        <td>MOTOR_RUN</td>
+        <td>Main Motor Output</td>
+      </tr>
+    `;
 
-function generateTagTable(plc, logic, prompt){
+    alarms = `
+      <tr>
+        <td>ALM_004</td>
+        <td>Motor Overload Trip</td>
+      </tr>
+    `;
 
-  let table = `
+    sequence = `
+      <li>Press start PB.</li>
+      <li>Motor energizes.</li>
+      <li>Press stop PB to stop motor.</li>
+    `;
+  }
+
+  // OUTPUT SECTION
+  document.getElementById("outputSection").innerHTML = `
+
+    <h2 class="section-title">Generated Logic Details</h2>
 
     <table>
 
       <tr>
         <th>PLC Model</th>
         <th>Logic Type</th>
-        <th>User Requirement</th>
       </tr>
 
       <tr>
         <td>${plc}</td>
-        <td>${logic}</td>
-        <td>${prompt}</td>
+        <td>${logicType}</td>
       </tr>
 
     </table>
@@ -180,128 +202,182 @@ function generateTagTable(plc, logic, prompt){
         <th>Description</th>
       </tr>
 
-      <tr>
-        <td>I:0/0</td>
-        <td>Start_PB</td>
-        <td>Start Push Button</td>
-      </tr>
-
-      <tr>
-        <td>I:0/1</td>
-        <td>Stop_PB</td>
-        <td>Stop Push Button</td>
-      </tr>
-
-      <tr>
-        <td>T4:0</td>
-        <td>Motor_Timer</td>
-        <td>Motor Delay Timer</td>
-      </tr>
-
-      <tr>
-        <td>O:0/0</td>
-        <td>Motor_M1</td>
-        <td>Motor Starter Output</td>
-      </tr>
+      ${tags}
 
     </table>
 
-  `;
+    <table>
 
-  document.getElementById("tagTable").innerHTML =
-  table;
+      <tr>
+        <th>Alarm ID</th>
+        <th>Description</th>
+      </tr>
+
+      ${alarms}
+
+    </table>
+
+    <h2 class="section-title">Sequence Of Operation</h2>
+
+    <ol>
+      ${sequence}
+    </ol>
+
+  `;
 
 }
 
+// MOTOR LOGIC
+function drawMotorLogic(y){
+
+  const svg = document.getElementById("ladderSVG");
+
+  svg.innerHTML += `
+
+    <line x1="50" y1="${y}" x2="1150" y2="${y}" class="rung"/>
+
+    <line x1="180" y1="${y-20}" x2="180" y2="${y+20}" class="contact"/>
+    <line x1="210" y1="${y-20}" x2="210" y2="${y+20}" class="contact"/>
+
+    <text x="150" y="${y+45}" class="label">START</text>
+
+    <line x1="340" y1="${y-20}" x2="340" y2="${y+20}" class="contact"/>
+    <line x1="370" y1="${y-20}" x2="370" y2="${y+20}" class="contact"/>
+
+    <line x1="335" y1="${y+20}" x2="375" y2="${y-20}" class="contact"/>
+
+    <text x="320" y="${y+45}" class="label">STOP</text>
+
+    <path d="
+      M 800 ${y-20}
+      Q 770 ${y} 800 ${y+20}
+
+      M 840 ${y-20}
+      Q 870 ${y} 840 ${y+20}
+    " class="coil"/>
+
+    <text x="760" y="${y+45}" class="label">MOTOR</text>
+
+  `;
+}
+
+// EMERGENCY LOGIC
+function drawEmergencyLogic(y){
+
+  const svg = document.getElementById("ladderSVG");
+
+  svg.innerHTML += `
+
+    <line x1="50" y1="${y}" x2="1150" y2="${y}" class="rung"/>
+
+    <line x1="250" y1="${y-20}" x2="250" y2="${y+20}" class="contact"/>
+    <line x1="280" y1="${y-20}" x2="280" y2="${y+20}" class="contact"/>
+
+    <line x1="245" y1="${y+20}" x2="285" y2="${y-20}" class="contact"/>
+
+    <text x="200" y="${y+45}" class="label">E-STOP</text>
+
+    <path d="
+      M 850 ${y-20}
+      Q 820 ${y} 850 ${y+20}
+
+      M 890 ${y-20}
+      Q 920 ${y} 890 ${y+20}
+    " class="coil"/>
+
+    <text x="800" y="${y+45}" class="label">MOTOR OFF</text>
+
+  `;
+}
+
+// PUMP LOGIC
+function drawPumpLogic(y){
+
+  const svg = document.getElementById("ladderSVG");
+
+  svg.innerHTML += `
+
+    <line x1="50" y1="${y}" x2="1150" y2="${y}" class="rung"/>
+
+    <line x1="180" y1="${y-20}" x2="180" y2="${y+20}" class="contact"/>
+    <line x1="210" y1="${y-20}" x2="210" y2="${y+20}" class="contact"/>
+
+    <text x="130" y="${y+45}" class="label">PUMP START</text>
+
+    <line x1="400" y1="${y-20}" x2="400" y2="${y+20}" class="contact"/>
+    <line x1="430" y1="${y-20}" x2="430" y2="${y+20}" class="contact"/>
+
+    <text x="360" y="${y+45}" class="label">LEVEL OK</text>
+
+    <path d="
+      M 850 ${y-20}
+      Q 820 ${y} 850 ${y+20}
+
+      M 890 ${y-20}
+      Q 920 ${y} 890 ${y+20}
+    " class="coil"/>
+
+    <text x="820" y="${y+45}" class="label">PUMP</text>
+
+  `;
+}
+
+// CONVEYOR LOGIC
+function drawConveyorLogic(y){
+
+  const svg = document.getElementById("ladderSVG");
+
+  svg.innerHTML += `
+
+    <line x1="50" y1="${y}" x2="1150" y2="${y}" class="rung"/>
+
+    <line x1="200" y1="${y-20}" x2="200" y2="${y+20}" class="contact"/>
+    <line x1="230" y1="${y-20}" x2="230" y2="${y+20}" class="contact"/>
+
+    <text x="170" y="${y+45}" class="label">START</text>
+
+    <path d="
+      M 850 ${y-20}
+      Q 820 ${y} 850 ${y+20}
+
+      M 890 ${y-20}
+      Q 920 ${y} 890 ${y+20}
+    " class="coil"/>
+
+    <text x="780" y="${y+45}" class="label">CONVEYOR</text>
+
+  `;
+}
+
+// PDF
 async function downloadPDF(){
 
   const { jsPDF } = window.jspdf;
 
   const pdf = new jsPDF();
 
+  pdf.setFontSize(24);
+
+  pdf.text("AI Master Vijay",20,20);
+
+  pdf.setFontSize(18);
+
+  pdf.text("PLC / DCS Logic Report",20,35);
+
   const plc =
   document.getElementById("plcModel").value;
-
-  const logic =
-  document.getElementById("logicType").value;
 
   const prompt =
   document.getElementById("prompt").value;
 
-  pdf.setFontSize(22);
-
-  pdf.text(
-    "AI Master Vijay",
-    20,
-    20
-  );
-
-  pdf.setFontSize(18);
-
-  pdf.text(
-    "PLC Ladder Logic Report",
-    20,
-    35
-  );
-
   pdf.setFontSize(12);
 
-  pdf.text(
-    `PLC Model: ${plc}`,
-    20,
-    55
-  );
+  pdf.text(`PLC Model: ${plc}`,20,60);
 
-  pdf.text(
-    `Logic Type: ${logic}`,
-    20,
-    65
-  );
+  pdf.text(`Requirement: ${prompt}`,20,75);
 
-  pdf.text(
-    `Requirement: ${prompt}`,
-    20,
-    75
-  );
+  pdf.text("Generated by AI Master Vijay",20,110);
 
-  pdf.text(
-    "Generated Tags:",
-    20,
-    95
-  );
-
-  pdf.text(
-    "I:0/0  - Start Push Button",
-    20,
-    110
-  );
-
-  pdf.text(
-    "I:0/1  - Stop Push Button",
-    20,
-    120
-  );
-
-  pdf.text(
-    "T4:0   - Motor Timer",
-    20,
-    130
-  );
-
-  pdf.text(
-    "O:0/0  - Motor Output",
-    20,
-    140
-  );
-
-  pdf.text(
-    "Generated by AI Master Vijay",
-    20,
-    170
-  );
-
-  pdf.save(
-    "PLC_Ladder_Logic_Report.pdf"
-  );
+  pdf.save("PLC_DCS_Logic_Report.pdf");
 
 }
