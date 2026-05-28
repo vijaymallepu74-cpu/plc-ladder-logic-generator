@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -13,36 +14,55 @@
 
 <body>
 
-<div class="container">
+  <div class="container">
 
-  <h1>⚡ PLC Ladder Logic Generator</h1>
+    <h1>⚡ PLC Ladder Logic Generator</h1>
 
-  <textarea id="prompt"
-  placeholder="Example:
+    <div class="selectors">
+
+      <select id="plcModel">
+        <option>MicroLogix 1400</option>
+        <option>SLC 500</option>
+        <option>CompactLogix</option>
+        <option>ControlLogix</option>
+      </select>
+
+      <select id="logicType">
+        <option>Motor Start Stop</option>
+        <option>Conveyor Logic</option>
+        <option>Pump Interlock</option>
+        <option>Tank Level Control</option>
+      </select>
+
+    </div>
+
+    <textarea id="prompt"
+      placeholder="Example:
 Start motor after 5 seconds delay with stop pushbutton"></textarea>
 
-  <div class="buttons">
-    <button onclick="generateLogic()">Generate Logic</button>
-    <button onclick="downloadPDF()">Download PDF</button>
+    <div class="buttons">
+      <button onclick="generateLogic()">Generate Logic</button>
+      <button onclick="downloadPDF()">Download PDF</button>
+    </div>
+
+    <div class="ladder-container">
+
+      <svg id="ladderSVG" width="1000" height="500">
+
+        <!-- Rails -->
+        <line x1="50" y1="20" x2="50" y2="450" class="rail" />
+        <line x1="950" y1="20" x2="950" y2="450" class="rail" />
+
+      </svg>
+
+    </div>
+
+    <div id="tagTable"></div>
+
   </div>
 
-  <div class="ladder-container">
-
-    <svg id="ladderSVG" width="1000" height="500">
-
-      <!-- Left Rail -->
-      <line x1="50" y1="20" x2="50" y2="450" class="rail"/>
-
-      <!-- Right Rail -->
-      <line x1="950" y1="20" x2="950" y2="450" class="rail"/>
-
-    </svg>
-
-  </div>
-
-</div>
-
-<script src="script.js"></script>
+  <script src="script.js"></script>
 
 </body>
+
 </html>
