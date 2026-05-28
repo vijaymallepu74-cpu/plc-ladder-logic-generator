@@ -12,18 +12,31 @@ function generateLogic(){
   const svg =
   document.getElementById("ladderSVG");
 
+  // Reset SVG
   svg.innerHTML = `
-  
-  <!-- Left Rail -->
-  <line x1="50" y1="20" x2="50" y2="450" class="rail"/>
 
-  <!-- Right Rail -->
-  <line x1="950" y1="20" x2="950" y2="450" class="rail"/>
-  
+    <!-- Left Rail -->
+    <line
+      x1="50"
+      y1="20"
+      x2="50"
+      y2="450"
+      class="rail" />
+
+    <!-- Right Rail -->
+    <line
+      x1="1000"
+      y1="20"
+      x2="1000"
+      y2="450"
+      class="rail" />
+
   `;
 
-  drawMotorRung(100);
+  // Draw Rung
+  drawMotorRung(120);
 
+  // Generate Tag Table
   generateTagTable(plc, logic, prompt);
 
 }
@@ -35,109 +48,168 @@ function drawMotorRung(y){
 
   svg.innerHTML += `
 
-  <!-- Rung -->
-  <line x1="50" y1="${y}" x2="950" y2="${y}" class="rung"/>
+    <!-- Rung -->
+    <line
+      x1="50"
+      y1="${y}"
+      x2="1000"
+      y2="${y}"
+      class="rung" />
 
-  <!-- XIC -->
-  <line x1="150" y1="${y-20}" x2="150" y2="${y+20}" class="contact"/>
-  <line x1="180" y1="${y-20}" x2="180" y2="${y+20}" class="contact"/>
+    <!-- XIC Start -->
+    <line
+      x1="160"
+      y1="${y-20}"
+      x2="160"
+      y2="${y+20}"
+      class="contact" />
 
-  <text x="130" y="${y+40}" class="label">
-  Start_PB
-  </text>
+    <line
+      x1="190"
+      y1="${y-20}"
+      x2="190"
+      y2="${y+20}"
+      class="contact" />
 
-  <!-- XIO -->
-  <line x1="300" y1="${y-20}" x2="300" y2="${y+20}" class="contact"/>
-  <line x1="330" y1="${y-20}" x2="330" y2="${y+20}" class="contact"/>
+    <text
+      x="130"
+      y="${y+45}"
+      class="label">
 
-  <line x1="295" y1="${y+20}" x2="335" y2="${y-20}" class="contact"/>
+      Start_PB
 
-  <text x="285" y="${y+40}" class="label">
-  Stop_PB
-  </text>
+    </text>
 
-  <!-- TON -->
-  <rect x="420" y="${y-25}" width="100" height="50"
-  stroke="black" fill="white" stroke-width="3"/>
+    <!-- XIO Stop -->
+    <line
+      x1="320"
+      y1="${y-20}"
+      x2="320"
+      y2="${y+20}"
+      class="contact" />
 
-  <text x="450" y="${y+5}" class="label">
-  TON T4:0
-  </text>
+    <line
+      x1="350"
+      y1="${y-20}"
+      x2="350"
+      y2="${y+20}"
+      class="contact" />
 
-  <!-- OTE Coil -->
-  <path d="
-  M 700 ${y-20}
-  Q 670 ${y} 700 ${y+20}
+    <line
+      x1="315"
+      y1="${y+20}"
+      x2="355"
+      y2="${y-20}"
+      class="contact" />
 
-  M 740 ${y-20}
-  Q 770 ${y} 740 ${y+20}
-  " class="coil"/>
+    <text
+      x="295"
+      y="${y+45}"
+      class="label">
 
-  <text x="680" y="${y+40}" class="label">
-  Motor_M1
-  </text>
+      Stop_PB
+
+    </text>
+
+    <!-- Timer -->
+    <rect
+      x="450"
+      y="${y-25}"
+      width="110"
+      height="50"
+      class="timer-box" />
+
+    <text
+      x="475"
+      y="${y+5}"
+      class="label">
+
+      TON T4:0
+
+    </text>
+
+    <!-- Coil -->
+    <path
+      d="
+      M 760 ${y-20}
+      Q 730 ${y} 760 ${y+20}
+
+      M 800 ${y-20}
+      Q 830 ${y} 800 ${y+20}
+      "
+      class="coil" />
+
+    <text
+      x="720"
+      y="${y+45}"
+      class="label">
+
+      Motor_M1
+
+    </text>
 
   `;
+
 }
 
 function generateTagTable(plc, logic, prompt){
 
-  let tags = `
+  let table = `
 
-  <table>
+    <table>
 
-    <tr>
-      <th>PLC Model</th>
-      <th>Logic Type</th>
-      <th>User Requirement</th>
-    </tr>
+      <tr>
+        <th>PLC Model</th>
+        <th>Logic Type</th>
+        <th>User Requirement</th>
+      </tr>
 
-    <tr>
-      <td>${plc}</td>
-      <td>${logic}</td>
-      <td>${prompt}</td>
-    </tr>
+      <tr>
+        <td>${plc}</td>
+        <td>${logic}</td>
+        <td>${prompt}</td>
+      </tr>
 
-  </table>
+    </table>
 
-  <table>
+    <table>
 
-    <tr>
-      <th>Address</th>
-      <th>Tag</th>
-      <th>Description</th>
-    </tr>
+      <tr>
+        <th>Address</th>
+        <th>Tag</th>
+        <th>Description</th>
+      </tr>
 
-    <tr>
-      <td>I:0/0</td>
-      <td>Start_PB</td>
-      <td>Start Push Button</td>
-    </tr>
+      <tr>
+        <td>I:0/0</td>
+        <td>Start_PB</td>
+        <td>Start Push Button</td>
+      </tr>
 
-    <tr>
-      <td>I:0/1</td>
-      <td>Stop_PB</td>
-      <td>Stop Push Button</td>
-    </tr>
+      <tr>
+        <td>I:0/1</td>
+        <td>Stop_PB</td>
+        <td>Stop Push Button</td>
+      </tr>
 
-    <tr>
-      <td>T4:0</td>
-      <td>Motor_Timer</td>
-      <td>Motor Delay Timer</td>
-    </tr>
+      <tr>
+        <td>T4:0</td>
+        <td>Motor_Timer</td>
+        <td>Motor Delay Timer</td>
+      </tr>
 
-    <tr>
-      <td>O:0/0</td>
-      <td>Motor_M1</td>
-      <td>Motor Starter Output</td>
-    </tr>
+      <tr>
+        <td>O:0/0</td>
+        <td>Motor_M1</td>
+        <td>Motor Starter Output</td>
+      </tr>
 
-  </table>
+    </table>
 
   `;
 
   document.getElementById("tagTable").innerHTML =
-  tags;
+  table;
 
 }
 
@@ -146,16 +218,6 @@ async function downloadPDF(){
   const { jsPDF } = window.jspdf;
 
   const pdf = new jsPDF();
-
-  pdf.setFontSize(20);
-
-  pdf.text(
-    "PLC Ladder Logic Report",
-    20,
-    20
-  );
-
-  pdf.setFontSize(12);
 
   const plc =
   document.getElementById("plcModel").value;
@@ -166,25 +228,80 @@ async function downloadPDF(){
   const prompt =
   document.getElementById("prompt").value;
 
-  pdf.text(`PLC Model: ${plc}`,20,40);
-
-  pdf.text(`Logic Type: ${logic}`,20,50);
-
-  pdf.text(`Requirement: ${prompt}`,20,60);
-
-  pdf.text("Generated Tags:",20,80);
-
-  pdf.text("I:0/0  - Start Push Button",20,95);
-  pdf.text("I:0/1  - Stop Push Button",20,105);
-  pdf.text("T4:0   - Motor Timer",20,115);
-  pdf.text("O:0/0  - Motor Output",20,125);
+  pdf.setFontSize(22);
 
   pdf.text(
-    "Generated by PLC Ladder Logic Generator",
+    "AI Master Vijay",
     20,
-    150
+    20
   );
 
-  pdf.save("PLC_Ladder_Logic_Report.pdf");
+  pdf.setFontSize(18);
+
+  pdf.text(
+    "PLC Ladder Logic Report",
+    20,
+    35
+  );
+
+  pdf.setFontSize(12);
+
+  pdf.text(
+    `PLC Model: ${plc}`,
+    20,
+    55
+  );
+
+  pdf.text(
+    `Logic Type: ${logic}`,
+    20,
+    65
+  );
+
+  pdf.text(
+    `Requirement: ${prompt}`,
+    20,
+    75
+  );
+
+  pdf.text(
+    "Generated Tags:",
+    20,
+    95
+  );
+
+  pdf.text(
+    "I:0/0  - Start Push Button",
+    20,
+    110
+  );
+
+  pdf.text(
+    "I:0/1  - Stop Push Button",
+    20,
+    120
+  );
+
+  pdf.text(
+    "T4:0   - Motor Timer",
+    20,
+    130
+  );
+
+  pdf.text(
+    "O:0/0  - Motor Output",
+    20,
+    140
+  );
+
+  pdf.text(
+    "Generated by AI Master Vijay",
+    20,
+    170
+  );
+
+  pdf.save(
+    "PLC_Ladder_Logic_Report.pdf"
+  );
 
 }
