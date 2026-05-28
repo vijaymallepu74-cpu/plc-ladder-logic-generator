@@ -6,7 +6,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <title>AI Master Vijay - PLC Ladder Logic Generator</title>
+  <title>AI Master Vijay - PLC Logic Generator</title>
 
   <link rel="stylesheet" href="style.css">
 
@@ -23,29 +23,19 @@
       ⚡ AI Master Vijay
       <br>
       <span class="subtitle">
-        PLC Ladder Logic Generator
+        PLC / DCS Logic Generator
       </span>
     </h1>
 
-    <!-- PLC Selection -->
+    <!-- PLC Model Selection -->
     <div class="selectors">
 
       <select id="plcModel">
 
-        <option>MicroLogix 1400</option>
-        <option>SLC 500</option>
-        <option>CompactLogix</option>
-        <option>ControlLogix</option>
-
-      </select>
-
-      <!-- Logic Selection -->
-      <select id="logicType">
-
-        <option>Motor Start Stop</option>
-        <option>Conveyor Logic</option>
-        <option>Pump Interlock</option>
-        <option>Tank Level Control</option>
+        <option>Allen Bradley - MicroLogix 1400</option>
+        <option>Allen Bradley - SLC 500</option>
+        <option>Allen Bradley - CompactLogix</option>
+        <option>Allen Bradley - ControlLogix</option>
 
       </select>
 
@@ -55,7 +45,7 @@
     <textarea
       id="prompt"
       placeholder="Example:
-Start motor after 5 seconds delay with stop pushbutton">
+Generate Emergency Shutdown Logic for Conveyor System with Alarm List and Sequence of Operation">
     </textarea>
 
     <!-- Buttons -->
@@ -71,33 +61,21 @@ Start motor after 5 seconds delay with stop pushbutton">
 
     </div>
 
-    <!-- Ladder Area -->
+    <!-- Ladder Logic Area -->
     <div class="ladder-container">
 
-      <svg id="ladderSVG" width="1100" height="500">
+      <svg id="ladderSVG" width="1200" height="700">
 
-        <!-- Left Rail -->
-        <line
-          x1="50"
-          y1="20"
-          x2="50"
-          y2="450"
-          class="rail" />
-
-        <!-- Right Rail -->
-        <line
-          x1="1000"
-          y1="20"
-          x2="1000"
-          y2="450"
-          class="rail" />
+        <!-- Rails -->
+        <line x1="50" y1="20" x2="50" y2="650" class="rail"/>
+        <line x1="1150" y1="20" x2="1150" y2="650" class="rail"/>
 
       </svg>
 
     </div>
 
-    <!-- Tag Table -->
-    <div id="tagTable"></div>
+    <!-- Generated Tables -->
+    <div id="outputSection"></div>
 
   </div>
 
