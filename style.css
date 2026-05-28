@@ -1,7 +1,7 @@
 body{
 
   margin:0;
-  background:#0f172a;
+  background:#08122b;
   font-family:Arial;
   color:white;
 
@@ -16,44 +16,42 @@ body{
 h1{
 
   color:#00ffcc;
-  font-size:42px;
+  font-size:50px;
 
 }
 
 .subtitle{
 
-  font-size:22px;
   color:white;
+  font-size:26px;
   font-weight:normal;
 
 }
 
 .selectors{
 
-  display:flex;
-  gap:20px;
   margin-top:30px;
 
 }
 
 select{
 
-  padding:14px;
-  border-radius:10px;
+  padding:15px;
   border:none;
-  font-size:16px;
-  min-width:220px;
+  border-radius:10px;
+  font-size:18px;
+  min-width:350px;
 
 }
 
 textarea{
 
   width:100%;
-  height:120px;
-  margin-top:25px;
-  padding:15px;
+  height:180px;
+  margin-top:30px;
   border:none;
   border-radius:10px;
+  padding:20px;
   font-size:18px;
   resize:none;
 
@@ -61,20 +59,20 @@ textarea{
 
 .buttons{
 
-  margin-top:25px;
   display:flex;
   gap:20px;
+  margin-top:30px;
 
 }
 
 button{
 
-  padding:15px 30px;
-  border:none;
-  border-radius:10px;
   background:#00ffcc;
   color:black;
-  font-size:18px;
+  border:none;
+  padding:18px 35px;
+  border-radius:12px;
+  font-size:20px;
   font-weight:bold;
   cursor:pointer;
 
@@ -88,10 +86,10 @@ button:hover{
 
 .ladder-container{
 
-  margin-top:40px;
   background:white;
-  border-radius:10px;
+  margin-top:40px;
   padding:20px;
+  border-radius:12px;
   overflow:auto;
 
 }
@@ -105,7 +103,7 @@ svg{
 .rail{
 
   stroke:black;
-  stroke-width:4;
+  stroke-width:5;
 
 }
 
@@ -150,8 +148,8 @@ svg{
 table{
 
   width:100%;
-  margin-top:30px;
   border-collapse:collapse;
+  margin-top:30px;
   background:white;
   color:black;
 
@@ -168,5 +166,13 @@ th, td{
 th{
 
   background:#00ffcc;
+
+}
+
+.section-title{
+
+  margin-top:40px;
+  font-size:28px;
+  color:#00ffcc;
 
 }
