@@ -1,44 +1,81 @@
-function generateLogic(){
+body{
+  margin:0;
+  background:#0f172a;
+  font-family:Arial;
+  color:white;
+}
 
-const prompt =
-document.getElementById("prompt").value;
+.container{
+  padding:30px;
+}
 
-let logic = `
-INPUT REQUIREMENT:
-${prompt}
+h1{
+  color:#00ffcc;
+}
 
---------------------------------
+textarea{
+  width:100%;
+  height:120px;
+  padding:15px;
+  border-radius:10px;
+  border:none;
+  font-size:18px;
+  margin-top:20px;
+}
 
-GENERATED LADDER LOGIC:
+.buttons{
+  margin-top:20px;
+  display:flex;
+  gap:20px;
+}
 
-Rung 1:
-Start PB ----] [---- Stop PB ----]/[---- Motor Coil (M1)
+button{
+  padding:15px 30px;
+  border:none;
+  border-radius:10px;
+  background:#00ffcc;
+  color:black;
+  font-size:18px;
+  cursor:pointer;
+  font-weight:bold;
+}
 
-Rung 2:
-Motor Coil (M1) ----] [---- TON Timer T4:0
+.ladder-container{
+  margin-top:40px;
+  background:white;
+  border-radius:10px;
+  overflow:auto;
+  padding:20px;
+}
 
-Rung 3:
-T4:0/DN ----] [---- Output Lamp
+svg{
+  background:white;
+}
 
---------------------------------
+.rail{
+  stroke:black;
+  stroke-width:4;
+}
 
-PLC TAGS:
+.rung{
+  stroke:black;
+  stroke-width:3;
+}
 
-Start_PB
-Stop_PB
-Motor_M1
-Timer_T4_0
-Output_Lamp
+.contact{
+  stroke:black;
+  stroke-width:3;
+  fill:none;
+}
 
---------------------------------
+.coil{
+  stroke:black;
+  stroke-width:3;
+  fill:none;
+}
 
-DESCRIPTION:
-
-Motor starts using Start Push Button.
-Stop Push Button stops motor.
-After timer completion, output lamp energizes.
-`;
-
-document.getElementById("output").innerText = logic;
-
+.label{
+  fill:black;
+  font-size:14px;
+  font-family:Arial;
 }
