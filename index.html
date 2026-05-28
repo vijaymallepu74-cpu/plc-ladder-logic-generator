@@ -6,7 +6,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <title>AI Master Vijay - PLC Logic Generator</title>
+  <title>AI Master Vijay - PLC/DCS Logic Generator</title>
 
   <link rel="stylesheet" href="style.css">
 
@@ -23,11 +23,11 @@
       ⚡ AI Master Vijay
       <br>
       <span class="subtitle">
-        PLC / DCS Logic Generator
+        Advanced PLC / DCS Logic Generator
       </span>
     </h1>
 
-    <!-- PLC Model Selection -->
+    <!-- PLC MODEL -->
     <div class="selectors">
 
       <select id="plcModel">
@@ -36,19 +36,22 @@
         <option>Allen Bradley - SLC 500</option>
         <option>Allen Bradley - CompactLogix</option>
         <option>Allen Bradley - ControlLogix</option>
+        <option>Siemens S7-1200</option>
+        <option>Siemens S7-1500</option>
+        <option>Schneider M340</option>
 
       </select>
 
     </div>
 
-    <!-- Prompt -->
+    <!-- USER PROMPT -->
     <textarea
       id="prompt"
       placeholder="Example:
-Generate Emergency Shutdown Logic for Conveyor System with Alarm List and Sequence of Operation">
+Generate Lead Lag Pump Logic with Auto Manual Control, Alarm List, Sequence Of Operation and Interlocks">
     </textarea>
 
-    <!-- Buttons -->
+    <!-- BUTTONS -->
     <div class="buttons">
 
       <button onclick="generateLogic()">
@@ -61,20 +64,19 @@ Generate Emergency Shutdown Logic for Conveyor System with Alarm List and Sequen
 
     </div>
 
-    <!-- Ladder Logic Area -->
+    <!-- LADDER SVG -->
     <div class="ladder-container">
 
-      <svg id="ladderSVG" width="1200" height="700">
+      <svg id="ladderSVG" width="1500" height="1000">
 
-        <!-- Rails -->
-        <line x1="50" y1="20" x2="50" y2="650" class="rail"/>
-        <line x1="1150" y1="20" x2="1150" y2="650" class="rail"/>
+        <line x1="50" y1="20" x2="50" y2="950" class="rail"/>
+        <line x1="1450" y1="20" x2="1450" y2="950" class="rail"/>
 
       </svg>
 
     </div>
 
-    <!-- Generated Tables -->
+    <!-- OUTPUT -->
     <div id="outputSection"></div>
 
   </div>
