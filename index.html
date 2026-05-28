@@ -1,24 +1,44 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>PLC Ladder Logic Generator</title>
+
   <link rel="stylesheet" href="style.css">
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
 </head>
 
 <body>
 
 <div class="container">
 
-<h1>⚡ PLC Ladder Logic Generator</h1>
+  <h1>⚡ PLC Ladder Logic Generator</h1>
 
-<textarea id="prompt"
-placeholder="Enter PLC logic requirement..."></textarea>
+  <textarea id="prompt"
+  placeholder="Example:
+Start motor after 5 seconds delay with stop pushbutton"></textarea>
 
-<button onclick="generateLogic()">
-Generate Logic
-</button>
+  <div class="buttons">
+    <button onclick="generateLogic()">Generate Logic</button>
+    <button onclick="downloadPDF()">Download PDF</button>
+  </div>
 
-<div id="output"></div>
+  <div class="ladder-container">
+
+    <svg id="ladderSVG" width="1000" height="500">
+
+      <!-- Left Rail -->
+      <line x1="50" y1="20" x2="50" y2="450" class="rail"/>
+
+      <!-- Right Rail -->
+      <line x1="950" y1="20" x2="950" y2="450" class="rail"/>
+
+    </svg>
+
+  </div>
 
 </div>
 
