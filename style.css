@@ -1,9 +1,9 @@
 body{
 
   margin:0;
-  background:#08122b;
-  font-family:Arial;
+  background:#07152d;
   color:white;
+  font-family:Arial;
 
 }
 
@@ -16,14 +16,14 @@ body{
 h1{
 
   color:#00ffcc;
-  font-size:50px;
+  font-size:55px;
 
 }
 
 .subtitle{
 
   color:white;
-  font-size:26px;
+  font-size:28px;
   font-weight:normal;
 
 }
@@ -40,19 +40,19 @@ select{
   border:none;
   border-radius:10px;
   font-size:18px;
-  min-width:350px;
+  min-width:400px;
 
 }
 
 textarea{
 
   width:100%;
-  height:180px;
+  height:220px;
   margin-top:30px;
   border:none;
-  border-radius:10px;
+  border-radius:12px;
   padding:20px;
-  font-size:18px;
+  font-size:20px;
   resize:none;
 
 }
@@ -88,8 +88,8 @@ button:hover{
 
   background:white;
   margin-top:40px;
-  padding:20px;
   border-radius:12px;
+  padding:20px;
   overflow:auto;
 
 }
@@ -129,6 +129,14 @@ svg{
 
 }
 
+.timer{
+
+  stroke:black;
+  stroke-width:3;
+  fill:white;
+
+}
+
 .label{
 
   fill:black;
@@ -137,11 +145,11 @@ svg{
 
 }
 
-.timer-box{
+.section-title{
 
-  stroke:black;
-  stroke-width:3;
-  fill:white;
+  color:#00ffcc;
+  margin-top:40px;
+  font-size:32px;
 
 }
 
@@ -149,9 +157,9 @@ table{
 
   width:100%;
   border-collapse:collapse;
-  margin-top:30px;
   background:white;
   color:black;
+  margin-top:30px;
 
 }
 
@@ -169,10 +177,11 @@ th{
 
 }
 
-.section-title{
+ol{
 
-  margin-top:40px;
-  font-size:28px;
-  color:#00ffcc;
+  background:white;
+  color:black;
+  padding:25px;
+  border-radius:12px;
 
 }
