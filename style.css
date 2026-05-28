@@ -13,6 +13,19 @@ h1{
   color:#00ffcc;
 }
 
+.selectors{
+  display:flex;
+  gap:20px;
+  margin-top:20px;
+}
+
+select{
+  padding:12px;
+  border-radius:10px;
+  border:none;
+  font-size:16px;
+}
+
 textarea{
   width:100%;
   height:120px;
@@ -21,12 +34,13 @@ textarea{
   border:none;
   font-size:18px;
   margin-top:20px;
+  resize:none;
 }
 
 .buttons{
-  margin-top:20px;
   display:flex;
   gap:20px;
+  margin-top:20px;
 }
 
 button{
@@ -36,16 +50,20 @@ button{
   background:#00ffcc;
   color:black;
   font-size:18px;
-  cursor:pointer;
   font-weight:bold;
+  cursor:pointer;
+}
+
+button:hover{
+  opacity:0.9;
 }
 
 .ladder-container{
   margin-top:40px;
   background:white;
   border-radius:10px;
-  overflow:auto;
   padding:20px;
+  overflow:auto;
 }
 
 svg{
@@ -65,7 +83,6 @@ svg{
 .contact{
   stroke:black;
   stroke-width:3;
-  fill:none;
 }
 
 .coil{
@@ -78,4 +95,22 @@ svg{
   fill:black;
   font-size:14px;
   font-family:Arial;
+}
+
+table{
+  width:100%;
+  margin-top:30px;
+  border-collapse:collapse;
+  background:white;
+  color:black;
+}
+
+th, td{
+  border:1px solid #ccc;
+  padding:12px;
+  text-align:left;
+}
+
+th{
+  background:#00ffcc;
 }
